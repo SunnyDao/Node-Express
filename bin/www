@@ -5,7 +5,7 @@
  */
 
 var app = require('../app');
-var debug = require('debug')('hichat:server');
+var debug = require('debug')('node-express:server');
 var http = require('http');
 
 /**
