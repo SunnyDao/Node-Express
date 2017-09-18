@@ -2,11 +2,11 @@ const http = require('http');
 const url = require('url');
 const server = http.createServer();
 
-console.log('1111');
+//console.log('1111');
 
 server.listen(8200);
 
-let users = [];
+const users = [];
 
 server.on('request',(req,res)=>{
 
@@ -28,15 +28,29 @@ server.on('request',(req,res)=>{
             res.end(JSON.stringify(users));
             break;
         case  'POST':
-            req.on('data',(data)=>{
-
+            req.on('data',(buffer)=>{
+                const userStr = buffer.toString();
+                let CT = req.headers['content-type'];
+                if (CT === 'application/json') {
+                    user = JSON.parse(userStr);
+                    users.push(user);
+                }
+            });
+            req.on('end', () => {
+                res.statusCode = 201;
+                res.end('Great! User created!');
             });
             break;
 
         case 'PATCH':
+            let username = parseURL.path.substring(6,parseURL.path.length);
+            req.on('data',(buffer)=>{
+                const userStr = buffer.toString();
+            })
+
             break;
 
-        case 'DELET':
+        case 'DELETE':
             break;
     }
 });
